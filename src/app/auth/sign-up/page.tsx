@@ -1,81 +1,94 @@
 'use client'
-
-import { createClient } from '@/utils/supabase'
 import { useState } from 'react'
+import { createClient } from '@/utils/supabase'
+import Navbar from '@/components/Navbar'
 
-/**
- * Sign-Up Page Component
- * Handles user registration using Supabase Auth.
- */
-export default function SignUp() {
-  const supabase = createClient()
+export default function SignUpPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [message, setMessage] = useState('')
+  const [status, setStatus] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const supabase = createClient()
+
+  async function handleSignUp(e: React.FormEvent) {
     e.preventDefault()
     setIsLoading(true)
-    setMessage('')
+    setStatus('Creating account access profile...')
 
-    // Creates the user in Supabase Auth
-    // Redirects to /auth/callback for PKCE flow support
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { 
-        emailRedirectTo: `${location.origin}/auth/callback` 
-      }
+      options: {
+        emailRedirectTo: `${window.location.origin}/crm/auth/callback`,
+      },
     })
 
-    if (error) {
-      setMessage(error.message)
-    } else {
-      setMessage('Account created successfully! You are now logged in.')
-    }
     setIsLoading(false)
+    if (error) {
+      setStatus(`Error: ${error.message}`)
+    } else {
+      setStatus('Success! Please check your email inbox to verify your account registration.')
+      setEmail('')
+      setPassword('')
+    }
   }
 
   return (
-    <div className="p-8 max-w-sm mx-auto bg-white shadow-md rounded-lg mt-10">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">Create Account</h1>
-      <form onSubmit={handleSignUp} className="flex flex-col gap-4">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email:</label>
-          <input 
-            id="email"
-            name="email"
-            type="email" 
-            placeholder="your@email.com" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border w-full p-2 rounded text-black focus:ring-2 focus:ring-blue-500 outline-none" 
-            required 
-          />
+    <div className="min-h-screen bg-slate-50 font-sans">
+      <Navbar />
+      <main className="max-w-md mx-auto pt-20 px-6 text-center">
+        <h1 className="text-4xl font-black tracking-tighter text-slate-900 mb-2">CREATE ACCOUNT</h1>
+        <p className="text-slate-400 text-sm font-medium mb-8 uppercase tracking-widest">Enterprise Access Portal</p>
+        
+        <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
+          <form onSubmit={handleSignUp} className="space-y-4 text-left">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                Email Address
+              </label>
+              <input 
+                id="email"
+                name="email"
+                type="email" 
+                placeholder="email@company.com" 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                required
+                disabled={isLoading}
+                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium" 
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
+                Password
+              </label>
+              <input 
+                id="password"
+                name="password"
+                type="password" 
+                placeholder="••••••••" 
+                value={password} 
+                onChange={e => setPassword(e.target.value)} 
+                required
+                disabled={isLoading}
+                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium" 
+              />
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={isLoading}
+              className="w-full mt-2 py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg hover:bg-blue-700 active:scale-95 disabled:bg-slate-300 disabled:scale-100 transition-all cursor-pointer"
+            >
+              Register Access Profile
+            </button>
+          </form>
+
+          {status && <p className="mt-6 text-xs font-bold text-blue-600 text-center animate-pulse">{status}</p>}
         </div>
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
-          <input 
-            id="password"
-            name="password"
-            type="password" 
-            placeholder="••••••••" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border w-full p-2 rounded text-black focus:ring-2 focus:ring-blue-500 outline-none" 
-            required 
-          />
-        </div>
-        <button 
-          type="submit" 
-          disabled={isLoading}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded transition-colors disabled:bg-blue-300"
-        >
-          {isLoading ? 'Creating Account...' : 'Sign Up'}
-        </button>
-      </form>
-      {message && <p className="mt-4 text-center text-sm font-medium text-blue-600">{message}</p>}
+      </main>
     </div>
   )
 }
