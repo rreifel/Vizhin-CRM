@@ -35,7 +35,7 @@ export default function VizhinLanding() {
           <img src="/logo.png" alt="Vizhin Logo" className="h-11 w-auto object-contain" />
         </div>
 
-        {/* Vizhin CRM Dropdown Button */}
+        {/* Vizhin CRM Main Button */}
         <div className="relative">
           <button 
             onClick={() => setDropdownOpen(!dropdownOpen)} 
@@ -51,10 +51,10 @@ export default function VizhinLanding() {
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-200/80 py-2 z-50">
               <a 
-                href="https://vercel.app" 
+                href="https://vizhin-crm.vercel.app/auth/login" 
                 className="flex items-center px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors"
               >
-                Log In
+                Vizhin CRM Portal
               </a>
               <button 
                 onClick={() => { setModalOpen(true); setDropdownOpen(false); }} 
