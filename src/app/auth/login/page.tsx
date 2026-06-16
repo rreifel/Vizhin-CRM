@@ -8,6 +8,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [status, setStatus] = useState('')
   const [isAlreadyLoggedIn, setIsAlreadyLoggedIn] = useState(false)
+  
   const supabase = createClient()
 
   useEffect(() => {
@@ -21,12 +22,14 @@ export default function LoginPage() {
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
     setStatus('Verifying credentials...')
+    
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     
     if (error) {
       setStatus(`Error: ${error.message}`)
     } else {
-      window.location.href = '/test-access'
+      // Corrected relative path to align with Vercel's multi-tenant subfolder routing structure
+      window.location.href = '/crm/test-access'
     }
   }
 
@@ -42,7 +45,7 @@ export default function LoginPage() {
       <main className="max-w-md mx-auto pt-20 px-6 text-center">
         <h1 className="text-4xl font-black tracking-tighter text-slate-900 mb-2">VIZHIN LOGIN</h1>
         <p className="text-slate-400 text-sm font-medium mb-8 uppercase tracking-widest">Enterprise Access Portal</p>
-
+        
         <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
           {isAlreadyLoggedIn ? (
             <div className="space-y-6">
@@ -50,14 +53,16 @@ export default function LoginPage() {
                 <p className="text-blue-700 font-bold text-sm">You are already logged in.</p>
                 <p className="text-xs text-blue-500 mt-1">Would you like to continue to your dashboard or switch accounts?</p>
               </div>
+              
               <button 
-                onClick={() => window.location.href = '/test-access'}
+                onClick={() => window.location.href = '/crm/test-access'} 
                 className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg mb-2 cursor-pointer"
               >
                 Go to Dashboard
               </button>
+              
               <button 
-                onClick={handleSignOut}
+                onClick={handleSignOut} 
                 className="w-full py-4 bg-white text-red-500 border-2 border-red-100 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-red-50 cursor-pointer"
               >
                 Sign Out / Switch Account
@@ -66,20 +71,28 @@ export default function LoginPage() {
           ) : (
             <form onSubmit={handleLogin} className="space-y-4">
               <input 
-                type="email" placeholder="Email Address" 
-                value={email} onChange={e => setEmail(e.target.value)}
-                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium"
+                type="email" 
+                placeholder="Email Address" 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium" 
               />
               <input 
-                type="password" placeholder="Password" 
-                value={password} onChange={e => setPassword(e.target.value)}
-                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium"
+                type="password" 
+                placeholder="Password" 
+                value={password} 
+                onChange={e => setPassword(e.target.value)} 
+                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium" 
               />
-              <button type="submit" className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg hover:bg-blue-700 active:scale-95 transition-all cursor-pointer">
+              <button 
+                type="submit" 
+                className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg hover:bg-blue-700 active:scale-95 transition-all cursor-pointer"
+              >
                 Authorize Access
               </button>
             </form>
           )}
+
           {status && <p className="mt-6 text-xs font-bold text-blue-600 animate-pulse">{status}</p>}
         </div>
       </main>
