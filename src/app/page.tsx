@@ -51,7 +51,7 @@ export default function VizhinLanding() {
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-200/80 py-2 z-50">
               <a 
-                href="/crm/auth/login" 
+                href="https://vercel.app" 
                 className="flex items-center px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-colors"
               >
                 Log In
