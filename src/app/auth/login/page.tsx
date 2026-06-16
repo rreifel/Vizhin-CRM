@@ -28,7 +28,6 @@ export default function LoginPage() {
     if (error) {
       setStatus(`Error: ${error.message}`)
     } else {
-      // Corrected relative path to align with Vercel's multi-tenant subfolder routing structure
       window.location.href = '/crm/test-access'
     }
   }
@@ -69,31 +68,47 @@ export default function LoginPage() {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleLogin} className="space-y-4">
-              <input 
-                type="email" 
-                placeholder="Email Address" 
-                value={email} 
-                onChange={e => setEmail(e.target.value)} 
-                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium" 
-              />
-              <input 
-                type="password" 
-                placeholder="Password" 
-                value={password} 
-                onChange={e => setPassword(e.target.value)} 
-                className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium" 
-              />
+            <form onSubmit={handleLogin} className="space-y-4 text-left">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                  Email Address
+                </label>
+                <input 
+                  id="email"
+                  name="email"
+                  type="email" 
+                  placeholder="email@company.com" 
+                  value={email} 
+                  onChange={e => setEmail(e.target.value)} 
+                  className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium" 
+                />
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
+                  Password
+                </label>
+                <input 
+                  id="password"
+                  name="password"
+                  type="password" 
+                  placeholder="••••••••" 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  className="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-blue-500 transition-all font-medium" 
+                />
+              </div>
+
               <button 
                 type="submit" 
-                className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg hover:bg-blue-700 active:scale-95 transition-all cursor-pointer"
+                className="w-full mt-2 py-4 bg-blue-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg hover:bg-blue-700 active:scale-95 transition-all cursor-pointer"
               >
                 Authorize Access
               </button>
             </form>
           )}
 
-          {status && <p className="mt-6 text-xs font-bold text-blue-600 animate-pulse">{status}</p>}
+          {status && <p className="mt-6 text-xs font-bold text-blue-600 text-center animate-pulse">{status}</p>}
         </div>
       </main>
     </div>
