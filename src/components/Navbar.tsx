@@ -15,7 +15,6 @@ export default function Navbar() {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
         setUserEmail(user.email || null)
-        
         // Call our secure database function to bypass RLS filters
         const { data: logoXml, error } = await supabase.rpc('get_my_custom_logo')
         if (!error && logoXml) {
@@ -28,7 +27,8 @@ export default function Navbar() {
 
   async function handleSignOut() {
     await supabase.auth.signOut()
-    window.location.href = '/auth/login'
+    // Corrected relative path to ensure sign-out stays on your live domain mapping context
+    window.location.href = '/crm/auth/login'
   }
 
   // The Default Vizhin Master Logo (SVG Code)
@@ -52,10 +52,7 @@ export default function Navbar() {
       <nav className="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center hover:opacity-80 transition-all w-48 h-auto">
-            <div 
-              className="w-full h-full flex items-center justify-center"
-              dangerouslySetInnerHTML={{ __html: customLogo || defaultLogo }} 
-            />
+            <div className="w-full h-full flex items-center justify-center" dangerouslySetInnerHTML={{ __html: customLogo || defaultLogo }} />
           </Link>
           
           <div className="flex gap-4">
