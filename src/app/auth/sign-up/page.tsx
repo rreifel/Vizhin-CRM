@@ -55,7 +55,7 @@ export default function SignUp() {
           />
         </div>
         <div>
-          <label htmlFor="password" name="password" className="block text-sm font-medium text-gray-700 mb-1">Password:</label>
+          <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1">
           <input 
             id="password"
             name="password"
