@@ -28,7 +28,8 @@ export default function LoginPage() {
     if (error) {
       setStatus(`Error: ${error.message}`)
     } else {
-      window.location.href = '/crm/test-access'
+      // Directs the browser cleanly to your real system route layout path
+      window.location.href = '/test-access'
     }
   }
 
@@ -54,7 +55,7 @@ export default function LoginPage() {
               </div>
               
               <button 
-                onClick={() => window.location.href = '/crm/test-access'} 
+                onClick={() => window.location.href = '/test-access'} 
                 className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg mb-2 cursor-pointer"
               >
                 Go to Dashboard
